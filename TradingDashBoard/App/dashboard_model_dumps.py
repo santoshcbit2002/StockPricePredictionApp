@@ -142,13 +142,13 @@ predictions_test=arima_model(data_train,data_test,(2,1,0))
 
 np.save('./Data/development_predictions.npy',predictions_test)
 
-data_all_but_10=data[:-10]
 
-train_array =data_all_but_10['Lloyds_Close'].values
+
+train_array =data['Lloyds_Close'].values
 
 history = [x for x in train_array]
 preds=[]
-for i in range(0,11):
+for i in range(0,len(train_array)):
     model = ARIMA(history, order=(2,1,0))
     result = model.fit()
     output = result.forecast()
@@ -156,7 +156,11 @@ for i in range(0,11):
     preds.append(output[0][0])
     history.append(output[0][0])
 
+output = result.forecast()
+preds.append(output[0][0])
+
+#print(preds)
+preds=np.array(preds[:11])
 print(preds)
-np.array(preds)
 np.save('./Data/predictions_dump.npy',preds)
 

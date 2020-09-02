@@ -67,11 +67,13 @@ a=LSE.valid_days(start_date=latest_date, end_date='2020-12-31')[:20]
 next_business_date=a[1].strftime('%Y-%m-%d')
 print('Next business day : {}'.format(next_business_date))
 
+updated_model_data=updated_model_data[updated_model_data['Lloyds_Close']!=' ']
+
 record_dict={'Date': next_business_date,
               'Lloyds_Close': ' '}
 
 updated_model_data=updated_model_data.append(record_dict,ignore_index=True)
-updated_model_data.drop_duplicates(subset=['Date'],inplace=True)
+#updated_model_data.drop_duplicates(subset=['Date'],inplace=True)
 updated_model_data.to_csv('./Data/model_data.csv',index=False)
 
 
