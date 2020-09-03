@@ -125,12 +125,13 @@ def arima_model(train_data, test_data, order):
     history = [x for x in train_array]
     predictions = []
     return_values = []
-    for i in range(len(test_array)):
+    for i in range(len(test_array)+1):
         model = ARIMA(history, order=order)
         result = model.fit()
         output = result.forecast()
         predictions.append(output[0])
-        history.append(test_array[i])
+        if i<len(test_array):
+            history.append(test_array[i])
     
     print('** Model fit Complete **')
     for j in range(len(predictions)):

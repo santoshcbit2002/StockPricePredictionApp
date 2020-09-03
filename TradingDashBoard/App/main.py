@@ -622,7 +622,8 @@ def update_output(start_date, end_date,value):
        # for i in range(0,2):
        #     pred_dates.append(a[i].date().strftime('%Y-%m-%d'))
 
-        pred=np.load('./Data/predictions_dump.npy')
+        pred=np.load('./Data/development_predictions.npy')
+        pred=pred[-11:]
         dates=data.tail(11)['Date'].values
         pred_frame=pd.DataFrame({'Date':dates,
                                  'Lloyds_Close':pred})
@@ -641,15 +642,16 @@ def update_output(start_date, end_date,value):
                             )
     if value==4:
         print('prediction selection Value in 4 ')
+        pred=np.load('./Data/development_predictions.npy')
         LSE = mcal.get_calendar('LSE')
-        a=LSE.valid_days(start_date='2019-07-05 ', end_date='2020-12-31')[:200]
+        a=LSE.valid_days(start_date='2019-07-05 ', end_date='2020-12-31')[:len(pred)]
         pred_dates=[]
 
-        for i in range(0,200):
+        for i in range(0,len(pred)):
             pred_dates.append(a[i].date().strftime('%Y-%m-%d'))
 
-        pred=np.load('./Data/development_predictions.npy')
-        pred=pred[:200]
+        
+        
         
         pred_frame=pd.DataFrame({'Date':pred_dates[:len(pred)],
                     'Lloyds_Close':pred})
@@ -706,4 +708,4 @@ def update_output(button_clicks,value):
 
 
 if __name__ == '__main__':
-    app.run_server(host='0.0.0.0', port=80, debug=True)  
+    app.run_server(host='0.0.0.0',port=80,debug=True)  
